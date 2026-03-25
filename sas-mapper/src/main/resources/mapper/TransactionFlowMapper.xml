@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.accounting.mapper.TransactionFlowMapper">
+
+    <resultMap id="BaseResultMap" type="com.simple.accounting.entity.TransactionFlow">
+        <id column="id" property="id"/>
+        <result column="trans_no" property="transNo"/>
+        <result column="flow_no" property="flowNo"/>
+        <result column="flow_type" property="flowType"/>
+        <result column="flow_status" property="flowStatus"/>
+        <result column="flow_amount" property="flowAmount"/>
+        <result column="flow_time" property="flowTime"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="selectByTransNo" resultMap="BaseResultMap">
+        SELECT * FROM transaction_flow WHERE trans_no = #{transNo} ORDER BY create_time
+    </select>
+
+</mapper>

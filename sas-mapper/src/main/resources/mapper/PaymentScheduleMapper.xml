@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.accounting.mapper.PaymentScheduleMapper">
+
+    <resultMap id="BaseResultMap" type="com.simple.accounting.entity.PaymentSchedule">
+        <id column="id" property="id"/>
+        <result column="loan_no" property="loanNo"/>
+        <result column="period" property="period"/>
+        <result column="repay_date" property="repayDate"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="principal" property="principal"/>
+        <result column="interest" property="interest"/>
+        <result column="penalty" property="penalty"/>
+        <result column="paid_principal" property="paidPrincipal"/>
+        <result column="paid_interest" property="paidInterest"/>
+        <result column="paid_penalty" property="paidPenalty"/>
+        <result column="remaining_principal" property="remainingPrincipal"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectByLoanNo" resultMap="BaseResultMap">
+        SELECT * FROM payment_schedule WHERE loan_no = #{loanNo} ORDER BY period
+    </select>
+
+    <select id="selectByLoanNoAndPeriod" resultMap="BaseResultMap">
+        SELECT * FROM payment_schedule WHERE loan_no = #{loanNo} AND period = #{period}
+    </select>
+
+    <select id="selectCurrentSchedule" resultMap="BaseResultMap">
+        SELECT * FROM payment_schedule
+        WHERE loan_no = #{loanNo}
+        AND status IN (0, 1)
+        ORDER BY period
+        LIMIT 1
+    </select>
+
+    <select id="selectUnpaidSchedules" resultMap="BaseResultMap">
+        SELECT * FROM payment_schedule
+        WHERE loan_no = #{loanNo}
+        AND status IN (0, 1)
+        ORDER BY period
+    </select>
+
+    <update id="updateScheduleStatus">
+        UPDATE payment_schedule
+        SET status = #{scheduleStatus},
+            update_time = NOW()
+        WHERE loan_no = #{loanNo} AND period = #{period}
+    </update>
+
+    <delete id="deleteByLoanNo">
+        DELETE FROM payment_schedule WHERE loan_no = #{loanNo}
+    </delete>
+
+</mapper>

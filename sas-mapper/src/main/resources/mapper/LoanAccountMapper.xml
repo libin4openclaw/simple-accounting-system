@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.accounting.mapper.LoanAccountMapper">
+
+    <resultMap id="BaseResultMap" type="com.simple.accounting.entity.LoanAccount">
+        <id column="id" property="id"/>
+        <result column="loan_no" property="loanNo"/>
+        <result column="contract_no" property="contractNo"/>
+        <result column="customer_id" property="customerId"/>
+        <result column="customer_name" property="customerName"/>
+        <result column="product_code" property="productCode"/>
+        <result column="contract_amount" property="contractAmount"/>
+        <result column="actual_amount" property="actualAmount"/>
+        <result column="contract_term" property="contractTerm"/>
+        <result column="remaining_term" property="remainingTerm"/>
+        <result column="interest_rate" property="interestRate"/>
+        <result column="overdue_rate" property="overdueRate"/>
+        <result column="disbursement_date" property="disbursementDate"/>
+        <result column="first_repay_date" property="firstRepayDate"/>
+        <result column="maturity_date" property="maturityDate"/>
+        <result column="remaining_principal" property="remainingPrincipal"/>
+        <result column="paid_principal" property="paidPrincipal"/>
+        <result column="paid_interest" property="paidInterest"/>
+        <result column="paid_penalty" property="paidPenalty"/>
+        <result column="overdue_days" property="overdueDays"/>
+        <result column="overdue_amount" property="overdueAmount"/>
+        <result column="loan_status" property="loanStatus"/>
+        <result column="repayment_method" property="repaymentMethod"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectByLoanNo" resultMap="BaseResultMap">
+        SELECT * FROM loan_account WHERE loan_no = #{loanNo}
+    </select>
+
+    <update id="updateLoanStatus">
+        UPDATE loan_account
+        SET loan_status = #{loanStatus},
+            update_time = NOW()
+        WHERE loan_no = #{loanNo}
+    </update>
+
+    <update id="updateRemainingPrincipal">
+        UPDATE loan_account
+        SET remaining_principal = #{remainingPrincipal},
+            update_time = NOW()
+        WHERE loan_no = #{loanNo}
+    </update>
+
+</mapper>
